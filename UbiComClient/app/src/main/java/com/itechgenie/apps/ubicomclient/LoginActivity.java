@@ -28,6 +28,8 @@ public class LoginActivity extends AppCompatActivity implements
     private static final String TAG = "LoginActivity";
 
     public static boolean isLoggedIn = false ;
+    public static String userName = "" ;
+    public static String emailId = "" ;
 
     private static final int RC_SIGN_IN = 9001;
 
@@ -123,11 +125,15 @@ public class LoginActivity extends AppCompatActivity implements
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             Log.d(TAG, "Account info: " + acct ) ;
+            userName = getString(R.string.signed_in_fmt, acct.getDisplayName()) ;
+            emailId = acct.getEmail() ;
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
             updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.
             updateUI(false);
+            userName = "" ;
+            emailId = "" ;
         }
     }
     // [END handleSignInResult]
@@ -136,6 +142,8 @@ public class LoginActivity extends AppCompatActivity implements
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
+        userName = "" ;
+        emailId = "" ;
     }
     // [END signIn]
 
@@ -150,6 +158,8 @@ public class LoginActivity extends AppCompatActivity implements
                         // [END_EXCLUDE]
                     }
                 });
+        userName = "" ;
+        emailId = "" ;
     }
     // [END signOut]
 
@@ -164,6 +174,8 @@ public class LoginActivity extends AppCompatActivity implements
                         // [END_EXCLUDE]
                     }
                 });
+        userName = "" ;
+        emailId = "" ;
     }
     // [END revokeAccess]
 
@@ -211,6 +223,8 @@ public class LoginActivity extends AppCompatActivity implements
         Log.d(TAG, "Switching to screen:" );
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(LOGGED_IN_USER, isLoggedIn);
+        intent.putExtra(LOGGED_IN_USER_NAME, userName);
+        intent.putExtra(LOGGED_IN_USER_EMAIL, emailId);
         startActivity(intent);
 
     }

@@ -6,7 +6,8 @@ package com.itechgenie.apps.ubicomclient.utils;
 
 public interface ITGConstants {
 
-    public static final String LOGGED_IN_USER = "com.itechgenie.apps.ubicomadmin.LOGGED_IN_USER";
-
+    public static final String LOGGED_IN_USER = "LOGGED_IN_USER";
+    public static final String LOGGED_IN_USER_NAME = "LOGGED_IN_USER_NAME";
+    public static final String LOGGED_IN_USER_EMAIL = "LOGGED_IN_USER_EMAIL";
 
 }
