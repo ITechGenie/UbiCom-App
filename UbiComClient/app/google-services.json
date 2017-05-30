@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "858401141639",
+    "project_id": "ubicomclient"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858401141639:android:f481c9c359ee0002",
+        "android_client_info": {
+          "package_name": "com.itechgenie.apps.ubicomclient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "858401141639-ckukkcdf4pfp4d7kahv7nb0oc00ad4de.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "858401141639-ot23nudehl1ndrvi39frsl66qm6qp1v0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.itechgenie.apps.ubicomclient",
+            "certificate_hash": "54d4312546c6269a81b30a8f9117cb8f45462651"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdDWG71cVGvhHqCRVVNvmKFGXTuaaOUr0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
