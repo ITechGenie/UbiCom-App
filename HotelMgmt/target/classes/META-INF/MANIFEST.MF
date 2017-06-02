@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: hotelmgmt-service
+Implementation-Version: 1.0.0
+Built-By: Prakash-hp
+Implementation-Vendor-Id: com.mtch.hmgmt
+Build-Jdk: 1.8.0_121
+Implementation-URL: http://projects.spring.io/spring-boot/hotel-mgmt/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+

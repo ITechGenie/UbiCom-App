@@ -1,0 +1,3 @@
+server:
+  port: 9080
+  contextPath: /hotelmgmtservice
