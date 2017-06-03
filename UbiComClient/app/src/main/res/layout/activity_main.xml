@@ -4,12 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.itechgenie.apps.ubicomclient.MainActivity">
 
     <TextView
-        android:layout_width="368dp" android:text="Welcome message here" android:textSize="16sp"
-        android:layout_height="wrap_content" android:id="@+id/welcomeTxtId"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="8dp" />
+        android:id="@+id/welcomeTxtId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="match_parent" android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text=""  />
+
+    <ListView
+        android:id="@+id/availableRoomsListId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ListView>
 
 </LinearLayout>

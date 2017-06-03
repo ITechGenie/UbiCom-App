@@ -57,4 +57,23 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
+
+    <string name="server_url">http://192.168.1.238/hotelmgmtservice</string>
+    <string name="select_rooms">Select a room from the list</string>
+
+    <string name="btn_cancel_txt">Cancel</string>
+    <string name="btn_ok_txt">OK</string>
+    <string name="btn_save_txt">Save</string>
+
+    <string name="room_number">Room No</string>
+    <string name="room_color">Room Color</string>
+    <string name="room_temperature">Room Temperature</string>
+
+    <string name="color_red">Red</string>
+    <string name="color_blue">Blue</string>
+    <string name="color_yellow">Yellow</string>
+    <string name="color_green">Green</string>
+    <string name="color_purple">Purple</string>
+
+    <string name="txt_temperature">Temperature</string>
 </resources>

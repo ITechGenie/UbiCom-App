@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.itechgenie.apps.ubicomclient.RoomsActivity">
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:paddingTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="@string/room_number"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/roomNoTextId" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="@string/room_temperature"
+            />
+
+        <EditText
+            android:id="@+id/roomTempEditorId"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="@string/room_color" />
+
+        <Spinner
+            android:id="@+id/roomColorSpinnerId"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/colorList" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"  />
+
+        <Button
+            android:id="@+id/saveButtonId"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:onClick="onClick"
+            android:text="@string/btn_save_txt"/>
+
+    </LinearLayout>
+</LinearLayout>

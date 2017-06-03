@@ -20,8 +20,8 @@ public class ITGUtility {
         return objectMapper.readValue(jsonString, className) ;
     }
 
-    public static Object castObject(Object jsonString, Class className) throws IOException {
-        return objectMapper.readValue(objectToJson(jsonString), className) ;
+    public static Object castObject(Object object, Class className) throws IOException {
+        return objectMapper.readValue(objectToJson(object), className) ;
     }
 
     public static boolean isNotNull(Object input)  {
