@@ -2,23 +2,25 @@ package com.mtch.hmgmt.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mtch.hmgmt.dao.RoomDao;
 import com.mtch.hmgmt.model.Room;
 
-@Repository
+@Service
 public class RoomDaoImpl extends HibernateDaoSupport implements RoomDao {
 
 	public static final Logger logger = LoggerFactory.getLogger(RoomDaoImpl.class);
 
-	
 	@Autowired
 	public void setMySessionFactory(SessionFactory sessionFactory) {
 		setSessionFactory(sessionFactory);
@@ -29,8 +31,19 @@ public class RoomDaoImpl extends HibernateDaoSupport implements RoomDao {
 	public void book(Room room) {
 		Room roomDb = getRoomByRoomNo(room.getRoomNo());
 		logger.info("Booking rooms: " + roomDb);
+		room.setId(roomDb.getId());
 		roomDb.setUserEmail(room.getUserEmail());
-		getHibernateTemplate().saveOrUpdate(roomDb);
+
+		SessionFactory sessionF = getHibernateTemplate().getSessionFactory();
+		Session session = sessionF.openSession() ;
+		Transaction tx = session.getTransaction() ;
+		tx.begin();
+		session.saveOrUpdate(roomDb); 
+		tx.commit();
+		session.close();
+		
+		logger.info("Object Updated successfully.....!!");
+		
 	}
 
 	@Override
@@ -69,6 +82,7 @@ public class RoomDaoImpl extends HibernateDaoSupport implements RoomDao {
 	}
 
 	@Override
+	@Transactional
 	public void changeColor(Room room) {
 		Room roomDb = getRoomByRoomNo(room.getRoomNo());
 		logger.info("Changing Color rooms: " + roomDb);

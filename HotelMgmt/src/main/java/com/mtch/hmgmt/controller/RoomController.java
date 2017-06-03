@@ -72,7 +72,36 @@ public class RoomController {
 			return new ResponseEntity(new CustomErrorType("Room with RoomNO " + roomInput 
 					+ " not found"), HttpStatus.NOT_FOUND);
 		}
-		roomService.book(room);
+		roomService.book(roomInput);
 		return new ResponseEntity<Room>(HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/color", method = RequestMethod.POST)
+	public ResponseEntity<?> changeColor(@RequestBody Room roomInput) {
+		logger.info("Obtained info for changeColor: " + roomInput );
+		Room room = roomService.getRoomByRoomNo(roomInput.getRoomNo());
+		if (room == null) {
+			logger.error("Room with roomNo {} not found.", roomInput);
+			return new ResponseEntity(new CustomErrorType("Room with RoomNO " + roomInput 
+					+ " not found"), HttpStatus.NOT_FOUND);
+		}
+		room.setRoomColor(roomInput.getRoomColor());
+		roomService.changeColor(room);
+		return new ResponseEntity<Room>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/temperature", method = RequestMethod.POST)
+	public ResponseEntity<?> changeTemperature(@RequestBody Room roomInput) {
+		logger.info("Obtained info for changeTemperature: " + roomInput );
+		Room room = roomService.getRoomByRoomNo(roomInput.getRoomNo());
+		if (room == null) {
+			logger.error("Room with roomNo {} not found.", roomInput);
+			return new ResponseEntity(new CustomErrorType("Room with RoomNO " + roomInput 
+					+ " not found"), HttpStatus.NOT_FOUND);
+		}
+		room.setRoomTemp(roomInput.getRoomTemp());
+		roomService.changeTemperature(room);
+		return new ResponseEntity<Room>(HttpStatus.OK);
+	}
+	
 }

@@ -80,9 +80,12 @@ public class Room implements Serializable{
 		builder.append(id);
 		builder.append(", roomNo=");
 		builder.append(roomNo);
-		builder.append(", isAvailable=");
-		builder.append(isAvailable);
 		builder.append(", ");
+		if (isAvailable != null) {
+			builder.append("isAvailable=");
+			builder.append(isAvailable);
+			builder.append(", ");
+		}
 		if (type != null) {
 			builder.append("type=");
 			builder.append(type);
@@ -105,5 +108,5 @@ public class Room implements Serializable{
 		builder.append("]");
 		return builder.toString();
 	}
-	
+	 
 }
