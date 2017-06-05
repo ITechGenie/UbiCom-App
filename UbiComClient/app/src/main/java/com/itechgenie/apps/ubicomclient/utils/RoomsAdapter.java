@@ -22,16 +22,22 @@ import com.itechgenie.apps.ubicomclient.dto.RoomDTO;
 public class RoomsAdapter extends ArrayAdapter<RoomDTO> {
 
     private static final String LOGGER_NAME = "ProfileArrayAdapter";
+    private static boolean IS_LOGGED_IN;
+    private static String USER_NAME;
+    private static String USER_EMAIL_ID;
 
     Context mContext;
     int layoutResourceId;
     RoomDTO data[] = null;
 
-    public RoomsAdapter(Context mContext, int layoutResourceId, RoomDTO[] data) {
+    public RoomsAdapter(Context mContext, int layoutResourceId, RoomDTO[] data, Boolean isLoggedIn, String userName, String userEmail) {
         super(mContext, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.mContext = mContext;
         this.data = data;
+        IS_LOGGED_IN = isLoggedIn;
+        USER_NAME = userName;
+        USER_EMAIL_ID = userEmail;
     }
 
 
@@ -70,9 +76,14 @@ public class RoomsAdapter extends ArrayAdapter<RoomDTO> {
         // int position=(Integer) v.getTag();
         RoomDTO roomDTO= (RoomDTO)getItem(position);
 
+
         Intent intent= new Intent(this.mContext, RoomsActivity.class);
         Bundle b = new Bundle();
         b.putSerializable(ITGConstants.ROOM_INFORMATION, roomDTO);
+        b.putSerializable("IS_LOGGED_IN", IS_LOGGED_IN);
+        b.putSerializable("USER_NAME", USER_NAME);
+        b.putSerializable("USER_EMAIL_ID", USER_EMAIL_ID);
+
         intent.putExtras(b);
         mContext.startActivity(intent);
 

@@ -36,7 +36,8 @@ public class RoomsService {
         Map<String, Object> headers = new HashMap<String, Object>() ;
         headers.put("Accept", "application/json");
         headers.put("Content-type", "application/json");
-        String url ="http://192.168.1.238:9080/hotelmgmtservice/room/available/"  ;
+        // 10.229.186.84
+        String url ="http://192.168.56.1:9081/hotelmgmtservice/room/available/"  ;
         List<LinkedHashMap> respList = ITGRestClient.get(url, headers, null, List.class );
 
         List<RoomDTO> roomDTOs = new ArrayList<RoomDTO>() ;
@@ -52,4 +53,27 @@ public class RoomsService {
     public void   fetchRoom( ) {
 
     }
+
+    public boolean saveBooking (RoomDTO roomDTO) throws Exception {
+
+        Log.d(LOGGER_TAG, "saveBooking : Start");
+        Map<String, Object> headers = new HashMap<String, Object>() ;
+        headers.put("Accept", "application/json");
+        headers.put("Content-type", "application/json");
+        String url ="http://192.168.56.1:9081/hotelmgmtservice/room/book/";
+
+        try {
+
+            String response = ITGRestClient.post(url, headers, roomDTO, String.class);
+            Log.d(LOGGER_TAG, "saveBooking : response received --> " + response) ;
+
+        } catch (Exception e) {
+            Log.d(LOGGER_TAG, "Exception occured :" + e.getMessage());
+            return false;
+        }
+        Log.d(LOGGER_TAG, "saveBooking : End");
+        return true;
+    }
+
+
 }

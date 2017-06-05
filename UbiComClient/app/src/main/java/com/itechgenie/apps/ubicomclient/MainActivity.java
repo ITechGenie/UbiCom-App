@@ -44,13 +44,17 @@ public class MainActivity extends AppCompatActivity implements ITGConstants, Roo
         Log.d(TAG, "Obtained response: " + value);
 
         List<RoomDTO> rooms = (List<RoomDTO>) value;
+        Intent intent = getIntent();
+        Boolean isLoggedIn = intent.getBooleanExtra(LOGGED_IN_USER, false);
+        String userName = intent.getStringExtra(LOGGED_IN_USER_NAME);
+        String emailId = intent.getStringExtra(LOGGED_IN_USER_EMAIL);
 
         if (value != null && rooms.size() > 0) {
             ListView availableRooms = (ListView) findViewById(R.id.availableRoomsListId);
 
             final RoomDTO roomsArray[] = rooms.toArray(new RoomDTO[rooms.size()]);
 
-            availableRooms.setAdapter(new RoomsAdapter(this, R.layout.rooms_list_layout, roomsArray));
+            availableRooms.setAdapter(new RoomsAdapter(this, R.layout.rooms_list_layout, roomsArray, isLoggedIn, userName, emailId));
 
             availableRooms.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

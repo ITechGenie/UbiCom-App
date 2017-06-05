@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.itechgenie.apps.ubicomclient.dto.RoomDTO;
 import com.itechgenie.apps.ubicomclient.utils.ITGConstants;
+import com.itechgenie.apps.ubicomclient.utils.RoomsAsyncLoader;
 
 import static com.itechgenie.apps.ubicomclient.R.id.numberPickerLabelId;
 
@@ -83,6 +84,23 @@ public class RoomsActivity extends AppCompatActivity  {
 
     public void saveDetails(View view) {
         Log.d(LOGGER_TAG, "Save details clicked: " + view.getId()) ;
+        Log.d(LOGGER_TAG, "Temperature Set: " + tempSelector.getText()) ;
+        Log.d(LOGGER_TAG, "Color Selected: " + colorSpinner.getSelectedItem()) ;
+
+        RoomDTO roomDTO = null ;
+        Bundle b = this.getIntent().getExtras();
+        if (b != null)
+            roomDTO = (RoomDTO) b.getSerializable(ITGConstants.ROOM_INFORMATION);
+
+        // Set the selected values
+        roomDTO.setRoomColor((String) colorSpinner.getSelectedItem());
+        roomDTO.setRoomTemp (tempSelector.getText().toString());
+        roomDTO.setIsAvailable("N");
+        roomDTO.setUserEmail((String) b.getSerializable("USER_EMAIL_ID"));
+
+        // Save booking details, Pass room roomDTO as parameter
+        new RoomsAsyncLoader(RoomsActivity.this).execute(roomDTO);
+
     }
 
     public void showAgeSelector(final View view) {

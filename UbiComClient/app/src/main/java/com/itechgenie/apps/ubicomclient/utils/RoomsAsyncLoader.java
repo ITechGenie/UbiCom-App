@@ -37,8 +37,8 @@ public class RoomsAsyncLoader  extends AsyncTask<Object, Void, Object> {
                     Log.d(LOGGER_TAG, "Param: " + f);
                 }
                 if (params[0] instanceof RoomDTO) {
-                    //return GwpmBusinessEntity.object().searchProfile((GwpmSearchProfileDTO) params[0]);
-                    return null ;
+                    return RoomsService.object().saveBooking((RoomDTO) params[0]);
+
                 } else {
                     //return GwpmBusinessEntity.object().getProfile((String) params[0]) ;
                     return null;
