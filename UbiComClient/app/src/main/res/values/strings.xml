@@ -65,6 +65,7 @@
     <string name="btn_ok_txt">OK</string>
     <string name="btn_save_txt">Save</string>
     <string name="btn_vacate_txt">Vacate</string>
+    <string name="btn_book_txt">Book</string>
 
     <string name="room_number">Room No</string>
     <string name="room_color">Room Color</string>
@@ -74,7 +75,10 @@
     <string name="color_blue">Blue</string>
     <string name="color_yellow">Yellow</string>
     <string name="color_green">Green</string>
-    <string name="color_purple">Purple</string>
+    <string name="color_magenta">Magenta</string>
+    <string name="color_cyan">Cyan</string>
 
     <string name="txt_temperature">Temperature</string>
+
+    <string name="view_rooms" >View Rooms</string>
 </resources>

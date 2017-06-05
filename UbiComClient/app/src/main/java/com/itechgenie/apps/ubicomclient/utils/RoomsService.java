@@ -28,25 +28,46 @@ public class RoomsService {
         return roomsService ;
     }
 
-    public void loadAllRooms () {
-
-    }
-    public List<RoomDTO> loadAvailableRooms () throws Exception {
-
+    public RoomDTO getMyRoom (String emailId) throws Exception {
         Map<String, Object> headers = new HashMap<String, Object>() ;
         headers.put("Accept", "application/json");
         headers.put("Content-type", "application/json");
         // 10.229.186.84
-        String url = ITGConstants.APP_SERVER_HOST_NAME + "/room/available/"  ;
+        String url = ITGConstants.APP_SERVER_HOST_NAME + "/room/myroom/" +  emailId  ;
+        RoomDTO roomDTO = ITGRestClient.get(url, headers, null, RoomDTO.class );
+
+        Log.d(LOGGER_TAG, "Obtained response : " + roomDTO);
+        return roomDTO ;
+    }
+
+    public List<RoomDTO> loadAvailableRooms (String emailId) throws Exception {
+
+        Log.d(LOGGER_TAG, "Obtained user email id for loading_available_rooms: " + emailId ) ;
+        Map<String, Object> headers = new HashMap<String, Object>() ;
+        headers.put("Accept", "application/json");
+        headers.put("Content-type", "application/json");
+        // 10.229.186.84
+        String url = ITGConstants.APP_SERVER_HOST_NAME + "/room/all"  ;
         List<LinkedHashMap> respList = ITGRestClient.get(url, headers, null, List.class );
+
+        RoomDTO myRoom = null ;
 
         List<RoomDTO> roomDTOs = new ArrayList<RoomDTO>() ;
 
         for (LinkedHashMap hashMap: respList ) {
             RoomDTO roomDTO = (RoomDTO) ITGUtility.castObject(hashMap, RoomDTO.class) ;
+            if (emailId.equalsIgnoreCase(roomDTO.getUserEmail())) {
+                myRoom = roomDTO ;
+            }
             roomDTOs.add(roomDTO) ;
         }
         Log.d(LOGGER_TAG, "Obtained response : " + roomDTOs);
+
+        if (myRoom != null) {
+            roomDTOs = new ArrayList<RoomDTO>() ;
+            roomDTOs.add(myRoom) ;
+        }
+
         return roomDTOs ;
     }
 

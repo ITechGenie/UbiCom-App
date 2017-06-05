@@ -2,36 +2,51 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/clientAppRoomLayoutId"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="4dp"
     android:orientation="vertical"
-    tools:context="com.itechgenie.apps.ubicomclient.RoomsActivity">
-
-    <TextView
-        android:id="@+id/welcomeMsgHolderId"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="25dp"
-        android:text="SAmpl"
-        android:textSize="14dp" />
+    tools:context="com.itechgenie.apps.ubicomadmin.RoomsActivity"
+    tools:ignore="RtlHardcoded,RtlSymmetry">
 
     <LinearLayout
+        android:layout_marginTop="20dp"
+        android:paddingTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:paddingTop="15dp">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:text="@string/room_number" />
+            android:text="@string/room_number"
+            />
 
         <TextView
-            android:id="@+id/roomNoTextId"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:id="@+id/roomNoTextId" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:paddingTop="10dp"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="@string/room_email"
+            />
+
+        <TextView
+            android:id="@+id/roomUserEmailId"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            />
 
     </LinearLayout>
 
@@ -43,13 +58,15 @@
         <TextView
             android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:text="@string/room_temperature" />
+            android:text="@string/room_temperature"
+            />
 
         <EditText
             android:id="@+id/roomTempEditorId"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:onClick="onClick" />
+            android:onClick="onClick"
+            tools:ignore="LabelFor,TextFields" />
 
     </LinearLayout>
 
@@ -70,7 +87,6 @@
             android:entries="@array/colorList" />
 
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -79,24 +95,19 @@
 
         <Button
             android:id="@+id/saveButtonId"
-            android:layout_width="80dp"
+            android:layout_width="130dp"
             android:layout_height="50dp"
             android:onClick="onClick"
-            android:text="@string/btn_save_txt" />
+            android:text="@string/btn_override_txt"
+            tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/vacateRoom"
             android:layout_width="80dp"
             android:layout_height="50dp"
             android:onClick="onClick"
-            android:text="@string/btn_vacate_txt" />
-
-        <Button
-            android:id="@+id/bookMyRoom"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:onClick="onClick"
-            android:text="@string/btn_book_txt" />
+            android:text="@string/btn_vacate_txt"
+            tools:ignore="ButtonStyle" />
 
     </LinearLayout>
 </LinearLayout>

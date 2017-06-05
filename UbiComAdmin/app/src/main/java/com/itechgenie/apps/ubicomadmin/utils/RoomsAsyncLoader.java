@@ -1,11 +1,11 @@
-package com.itechgenie.apps.ubicomclient.utils;
+package com.itechgenie.apps.ubicomadmin.utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.itechgenie.apps.ubicomclient.dto.RoomDTO;
+import com.itechgenie.apps.ubicomadmin.dto.RoomDTO;
 
 /**
  * Created by Prakash-hp on 03-06-2017.
@@ -39,8 +39,6 @@ public class RoomsAsyncLoader  extends AsyncTask<Object, Void, Object> {
                 if (params[0] instanceof RoomDTO) {
                     RoomDTO room = (RoomDTO)  params[0] ;
 
-                    Log.d(LOGGER_TAG, "Inside doInBackground parsedObject: " + room);
-
                     if (room == null) {
                         throw new Exception( "Invalid room object: " + room ) ;
                     } if (room.getRoomNo() == null ) {
@@ -49,9 +47,13 @@ public class RoomsAsyncLoader  extends AsyncTask<Object, Void, Object> {
 
                     return RoomsService.object().saveRoom(room);
 
-                } else if (params[0] instanceof String) {
-                    return RoomsService.object().loadAvailableRooms((String) params[0] );
+                } else {
+                    //return GwpmBusinessEntity.object().getProfile((String) params[0]) ;
+                    return null;
                 }
+            } else {
+                Log.d(LOGGER_TAG, "No Param obtained, fetching my profile !");
+                return RoomsService.object().loadAvailableRooms();
             }
         } catch (Exception itwExec) {
             Log.e(LOGGER_TAG, "Exception occurred: " + itwExec.getMessage()) ;
