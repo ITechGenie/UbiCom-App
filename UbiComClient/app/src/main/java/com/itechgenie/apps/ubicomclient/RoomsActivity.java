@@ -17,16 +17,21 @@ import com.itechgenie.apps.ubicomclient.utils.RoomsAsyncLoader;
 
 import static com.itechgenie.apps.ubicomclient.R.id.numberPickerLabelId;
 
-public class RoomsActivity extends AppCompatActivity  {
+public class RoomsActivity extends AppCompatActivity  implements RoomsAsyncLoader.callBack {
 
     final static String LOGGER_TAG = "RoomsActivity";
 
     private EditText tempSelector;
     private Button saveBtn;
+    private Button vacateBtn;
     private TextView tempPickerLabelId ;
     private TextView roomNoTxtId ;
     private Spinner colorSpinner ;
     int ageStart = 18 ;
+
+    private  RoomDTO currentRoomDTO = null ;
+
+    private String emailID = null ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,30 +40,33 @@ public class RoomsActivity extends AppCompatActivity  {
 
         tempSelector = (EditText) findViewById(R.id.roomTempEditorId);
         saveBtn = (Button)  findViewById(R.id.saveButtonId);
+        vacateBtn = (Button)  findViewById(R.id.vacateRoom);
         tempPickerLabelId = (TextView) findViewById(R.id.numberPickerLabelId);
         roomNoTxtId = (TextView) findViewById(R.id.roomNoTextId);
         colorSpinner = (Spinner) findViewById(R.id.roomColorSpinnerId) ;
 
-        RoomDTO roomDTO = null ;
+
 
         Bundle b = this.getIntent().getExtras();
-        if (b != null)
-            roomDTO = (RoomDTO) b.getSerializable(ITGConstants.ROOM_INFORMATION);
+        if (b != null) {
+            currentRoomDTO = (RoomDTO) b.getSerializable(ITGConstants.ROOM_INFORMATION);
+            emailID = (String) b.getSerializable("USER_EMAIL_ID") ;
+        }
 
-        Log.d("RoomsActivity", "Room obtained: " + roomDTO ) ;
+        Log.d("RoomsActivity", "Room obtained: " + currentRoomDTO ) ;
 
-        if (roomDTO !=  null ) {
+        if (currentRoomDTO !=  null ) {
 
-            String roo = String.valueOf(roomDTO.getRoomNo()) ;
+            String roo = String.valueOf(currentRoomDTO.getRoomNo()) ;
             Log.d("RoomsActivity", "Room no: " + roo ) ;
             roomNoTxtId.setText(roo);
 
-            String temp = String.valueOf(roomDTO.getRoomTemp()) ;
-            Log.d("RoomsActivity", "Temperature: " + roo ) ;
+            String temp = String.valueOf(currentRoomDTO.getRoomTemp()) ;
+            Log.d("RoomsActivity", "Temperature: " + temp ) ;
             tempSelector.setText(temp);
 
-            int spnid = getIndex(roomDTO.getRoomColor()) ;
-            Log.d("RoomsActivity", "Color index: " + spnid + " for " + roomDTO.getRoomColor() ) ;
+            int spnid = getIndex(currentRoomDTO.getRoomColor()) ;
+            Log.d("RoomsActivity", "Color index: " + spnid + " for " + currentRoomDTO.getRoomColor() ) ;
             colorSpinner.setSelection(spnid);
         }
     }
@@ -79,27 +87,37 @@ public class RoomsActivity extends AppCompatActivity  {
             showAgeSelector(view);
         } else if (view == saveBtn) {
             saveDetails(view);
+        } else if (view == vacateBtn) {
+            vacateRoom(view);
         }
     }
+
+    public void vacateRoom(View view) {
+
+        RoomDTO roomDTON = new RoomDTO()  ;
+        roomDTON.setRoomNo(currentRoomDTO.getRoomNo());
+        roomDTON.setUserEmail("DUMMY");
+        new RoomsAsyncLoader(RoomsActivity.this).execute(roomDTON);
+
+    }
+
 
     public void saveDetails(View view) {
         Log.d(LOGGER_TAG, "Save details clicked: " + view.getId()) ;
         Log.d(LOGGER_TAG, "Temperature Set: " + tempSelector.getText()) ;
         Log.d(LOGGER_TAG, "Color Selected: " + colorSpinner.getSelectedItem()) ;
 
-        RoomDTO roomDTO = null ;
-        Bundle b = this.getIntent().getExtras();
-        if (b != null)
-            roomDTO = (RoomDTO) b.getSerializable(ITGConstants.ROOM_INFORMATION);
+        RoomDTO roomDTON = new RoomDTO()  ;
 
         // Set the selected values
-        roomDTO.setRoomColor((String) colorSpinner.getSelectedItem());
-        roomDTO.setRoomTemp (tempSelector.getText().toString());
-        roomDTO.setIsAvailable("N");
-        roomDTO.setUserEmail((String) b.getSerializable("USER_EMAIL_ID"));
+        roomDTON.setRoomColor((String) colorSpinner.getSelectedItem());
+        roomDTON.setRoomTemp (tempSelector.getText().toString());
+        roomDTON.setIsAvailable("N");
+        roomDTON.setUserEmail(emailID);
+        roomDTON.setRoomNo(currentRoomDTO.getRoomNo());
 
         // Save booking details, Pass room roomDTO as parameter
-        new RoomsAsyncLoader(RoomsActivity.this).execute(roomDTO);
+        new RoomsAsyncLoader(RoomsActivity.this).execute(roomDTON);
 
     }
 
@@ -136,5 +154,10 @@ public class RoomsActivity extends AppCompatActivity  {
             }
         });
         d.show();
+    }
+
+    @Override
+    public void returnText(Object value) {
+        Log.d(LOGGER_TAG, "Return text: " + value) ;
     }
 }

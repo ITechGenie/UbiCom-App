@@ -37,7 +37,7 @@ public class RoomsService {
         headers.put("Accept", "application/json");
         headers.put("Content-type", "application/json");
         // 10.229.186.84
-        String url ="http://192.168.56.1:9081/hotelmgmtservice/room/available/"  ;
+        String url = ITGConstants.APP_SERVER_HOST_NAME + "/room/available/"  ;
         List<LinkedHashMap> respList = ITGRestClient.get(url, headers, null, List.class );
 
         List<RoomDTO> roomDTOs = new ArrayList<RoomDTO>() ;
@@ -54,24 +54,72 @@ public class RoomsService {
 
     }
 
-    public boolean saveBooking (RoomDTO roomDTO) throws Exception {
+    public boolean saveRoom (RoomDTO roomDTO) throws Exception {
 
         Log.d(LOGGER_TAG, "saveBooking : Start");
         Map<String, Object> headers = new HashMap<String, Object>() ;
         headers.put("Accept", "application/json");
         headers.put("Content-type", "application/json");
-        String url ="http://192.168.56.1:9081/hotelmgmtservice/room/book/";
 
-        try {
+        String url = "" ;
 
-            String response = ITGRestClient.post(url, headers, roomDTO, String.class);
-            Log.d(LOGGER_TAG, "saveBooking : response received --> " + response) ;
 
-        } catch (Exception e) {
-            Log.d(LOGGER_TAG, "Exception occured :" + e.getMessage());
-            return false;
+        // Saving Room Color
+
+        if (roomDTO.getUserEmail() != null ) {
+
+            if ("DUMMY".equalsIgnoreCase(roomDTO.getUserEmail())) {
+                roomDTO.setUserEmail(null );
+            }
+
+            url = ITGConstants.APP_SERVER_HOST_NAME +  "/room/book";
+
+            try {
+
+                Map response = ITGRestClient.post(url, headers, roomDTO, Map.class);
+                Log.d(LOGGER_TAG, "saveEmail : response received --> " + response) ;
+
+            } catch (Exception e) {
+                Log.d(LOGGER_TAG, "Exception occurred :" + e.getMessage());
+                return false;
+            }
+
+            Log.d(LOGGER_TAG, "Room vacated !") ;
+
+            return true;
         }
-        Log.d(LOGGER_TAG, "saveBooking : End");
+
+        if (roomDTO.getRoomTemp() != null ) {
+
+            url = ITGConstants.APP_SERVER_HOST_NAME +  "/room/temperature";
+
+            try {
+
+                Map response = ITGRestClient.post(url, headers, roomDTO, Map.class);
+                Log.d(LOGGER_TAG, "saveTemp : response received --> " + response) ;
+
+            } catch (Exception e) {
+                Log.d(LOGGER_TAG, "Exception occurred :" + e.getMessage());
+                return false;
+            }
+        }
+
+        if (roomDTO.getRoomColor() != null ) {
+
+            url = ITGConstants.APP_SERVER_HOST_NAME +  "/room/color";
+
+            try {
+
+                Map response = ITGRestClient.post(url, headers, roomDTO, Map.class);
+                Log.d(LOGGER_TAG, "saveColor : response received --> " + response) ;
+
+            } catch (Exception e) {
+                Log.d(LOGGER_TAG, "Exception occurred :" + e.getMessage());
+                return false;
+            }
+        }
+
+        Log.d(LOGGER_TAG, "saveRoom : End");
         return true;
     }
 

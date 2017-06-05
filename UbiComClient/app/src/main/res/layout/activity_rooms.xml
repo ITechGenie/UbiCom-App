@@ -80,5 +80,12 @@
             android:onClick="onClick"
             android:text="@string/btn_save_txt"/>
 
+        <Button
+            android:id="@+id/vacateRoom"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:onClick="onClick"
+            android:text="@string/btn_vacate_txt"/>
+
     </LinearLayout>
 </LinearLayout>

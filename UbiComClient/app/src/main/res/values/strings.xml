@@ -64,6 +64,7 @@
     <string name="btn_cancel_txt">Cancel</string>
     <string name="btn_ok_txt">OK</string>
     <string name="btn_save_txt">Save</string>
+    <string name="btn_vacate_txt">Vacate</string>
 
     <string name="room_number">Room No</string>
     <string name="room_color">Room Color</string>

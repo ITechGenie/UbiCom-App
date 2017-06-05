@@ -47,6 +47,7 @@ public class RoomDaoImpl extends HibernateDaoSupport implements RoomDao {
 	}
 
 	@Override
+	@Transactional
 	public void checkOut(Room room) {
 		Room roomDb = getRoomByRoomNo(room.getRoomNo());
 		logger.info("Checkout rooms: " + roomDb);
@@ -91,6 +92,7 @@ public class RoomDaoImpl extends HibernateDaoSupport implements RoomDao {
 	}
 
 	@Override
+	@Transactional
 	public void changeTemperature(Room room) {
 		Room roomDb = getRoomByRoomNo(room.getRoomNo());
 		logger.info("Changing Temp rooms: " + roomDb);

@@ -37,7 +37,15 @@ public class RoomsAsyncLoader  extends AsyncTask<Object, Void, Object> {
                     Log.d(LOGGER_TAG, "Param: " + f);
                 }
                 if (params[0] instanceof RoomDTO) {
-                    return RoomsService.object().saveBooking((RoomDTO) params[0]);
+                    RoomDTO room = (RoomDTO)  params[0] ;
+
+                    if (room == null) {
+                        throw new Exception( "Invalid room object: " + room ) ;
+                    } if (room.getRoomNo() == null ) {
+                        throw new Exception( "Invalid room number: " + room.getRoomNo() ) ;
+                    }
+
+                    return RoomsService.object().saveRoom(room);
 
                 } else {
                     //return GwpmBusinessEntity.object().getProfile((String) params[0]) ;

@@ -1,6 +1,11 @@
 package com.mtch.hmgmt.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.websocket.server.PathParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +36,7 @@ public class RoomController {
 	// -------------------Retrieve All Rooms---------------------------------------------
 
 	@ApiOperation(value = "getAllRooms", notes="get all rooms",nickname = "getAllRooms")
-	@RequestMapping(value = "/all/", method = RequestMethod.GET)
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public ResponseEntity<List<Room>> getAllRooms() {
 		List<Room> rooms = roomService.getAllRooms();
 		if (rooms ==null ||rooms.isEmpty()) {
@@ -41,7 +46,7 @@ public class RoomController {
 		return new ResponseEntity<List<Room>>(rooms, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/available/", method = RequestMethod.GET)
+	@RequestMapping(value = "/available", method = RequestMethod.GET)
 	public ResponseEntity<List<Room>> getAllAvailableRooms() {
 		List<Room> rooms = roomService.getAllAvailableRooms();
 		if (rooms ==null ||rooms.isEmpty()) {
@@ -51,20 +56,45 @@ public class RoomController {
 		return new ResponseEntity<List<Room>>(rooms, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/detail/{roomNo}", method = RequestMethod.GET)
+	public Object getRoomByNo(@PathVariable("roomNo") Long roomNo) {
+		Room rooms = roomService.getRoomByRoomNo(roomNo);
+		if (rooms == null ) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		return rooms ;
+	}
+	
+	@RequestMapping(value = "/myroom/{emailId}", method = RequestMethod.GET)
+	public Object getRoomByEmail(@PathVariable("emailId") String emailId) {
+		List<Room> rooms = roomService. getAllAvailableRooms() ;
+		if (rooms == null || rooms.size() == 0 ) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		for (Room room: rooms) {
+			if ( emailId.equalsIgnoreCase(room.getUserEmail()) ) 
+				return room ;
+		}
+		return new HashMap() ;
+	}
+	
 	@RequestMapping(value = "/vacate/{roomNo}", method = RequestMethod.GET)
-	public ResponseEntity<?> vacate(@PathVariable("roomNo") long roomNo) {
+	public Object vacate(@PathVariable("roomNo") long roomNo) {
 		Room room = roomService.getRoomByRoomNo(roomNo);
 		if (room == null) {
 			logger.error("Room with roomNo {} not found.", roomNo);
 			return new ResponseEntity(new CustomErrorType("Room with RoomNO " + roomNo 
 					+ " not found"), HttpStatus.NOT_FOUND);
 		}
-		roomService.book(room);
-		return new ResponseEntity<Room>(HttpStatus.OK);
+		roomService.checkOut(room);
+		Map<String, Object> resp = new HashMap<String, Object>() ;
+		resp.put("sucsess", true) ;
+		
+		return resp ;
 	}
 	
 	@RequestMapping(value = "/book", method = RequestMethod.POST)
-	public ResponseEntity<?> book(@RequestBody Room roomInput) {
+	public Object book(@RequestBody Room roomInput) {
 		logger.info("Obtained info for booking: " + roomInput );
 		Room room = roomService.getRoomByRoomNo(roomInput.getRoomNo());
 		if (room == null) {
@@ -73,11 +103,15 @@ public class RoomController {
 					+ " not found"), HttpStatus.NOT_FOUND);
 		}
 		roomService.book(roomInput);
-		return new ResponseEntity<Room>(HttpStatus.OK);
+
+		Map<String, Object> resp = new HashMap<String, Object>() ;
+		resp.put("sucsess", true) ;
+		
+		return resp ;
 	}
 	
 	@RequestMapping(value = "/color", method = RequestMethod.POST)
-	public ResponseEntity<?> changeColor(@RequestBody Room roomInput) {
+	public Object changeColor(@RequestBody Room roomInput) {
 		logger.info("Obtained info for changeColor: " + roomInput );
 		Room room = roomService.getRoomByRoomNo(roomInput.getRoomNo());
 		if (room == null) {
@@ -87,11 +121,15 @@ public class RoomController {
 		}
 		room.setRoomColor(roomInput.getRoomColor());
 		roomService.changeColor(room);
-		return new ResponseEntity<Room>(HttpStatus.OK);
+
+		Map<String, Object> resp = new HashMap<String, Object>() ;
+		resp.put("sucsess", true) ;
+		
+		return resp ;
 	}
 	
 	@RequestMapping(value = "/temperature", method = RequestMethod.POST)
-	public ResponseEntity<?> changeTemperature(@RequestBody Room roomInput) {
+	public Object changeTemperature(@RequestBody Room roomInput, HttpServletResponse httpServletResponse) {
 		logger.info("Obtained info for changeTemperature: " + roomInput );
 		Room room = roomService.getRoomByRoomNo(roomInput.getRoomNo());
 		if (room == null) {
@@ -101,7 +139,12 @@ public class RoomController {
 		}
 		room.setRoomTemp(roomInput.getRoomTemp());
 		roomService.changeTemperature(room);
-		return new ResponseEntity<Room>(HttpStatus.OK);
+		httpServletResponse.setStatus(HttpServletResponse.SC_CREATED);
+		
+		Map<String, Object> resp = new HashMap<String, Object>() ;
+		resp.put("sucsess", true) ;
+		
+		return resp ;
 	}
 	
 }
