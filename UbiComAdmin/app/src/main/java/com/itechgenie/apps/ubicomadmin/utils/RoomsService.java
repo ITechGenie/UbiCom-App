@@ -67,13 +67,9 @@ public class RoomsService {
 
         // Saving Room Color
 
-        if (roomDTO.getUserEmail() != null && !"null".equalsIgnoreCase(roomDTO.getUserEmail())
-                && !"admin@ubicom.com".equalsIgnoreCase(roomDTO.getUserEmail())
-                && !"UNBOKKED".equalsIgnoreCase(roomDTO.getUserEmail())) {
+        if (roomDTO.getUserEmail() != null && "DUMMY".equalsIgnoreCase(roomDTO.getUserEmail())) {
 
-            if ("DUMMY".equalsIgnoreCase(roomDTO.getUserEmail())) {
-                roomDTO.setUserEmail(null);
-            }
+            roomDTO.setUserEmail(null);
 
             url = ITGConstants.APP_SERVER_HOST_NAME + "/room/book";
 

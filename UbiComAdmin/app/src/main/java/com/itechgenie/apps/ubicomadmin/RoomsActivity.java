@@ -1,6 +1,7 @@
 package com.itechgenie.apps.ubicomadmin;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.itechgenie.apps.ubicomadmin.dto.RoomDTO;
 import com.itechgenie.apps.ubicomadmin.utils.ITGConstants;
@@ -177,5 +179,8 @@ public class RoomsActivity extends AppCompatActivity  implements RoomsAsyncLoade
     @Override
     public void returnText(Object value) {
         Log.d(LOGGER_TAG, "Return text: " + value) ;
+        Toast.makeText(this, "Updated config, loading home page !", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, MainActivity.class) ;
+        startActivity(intent);
     }
 }
