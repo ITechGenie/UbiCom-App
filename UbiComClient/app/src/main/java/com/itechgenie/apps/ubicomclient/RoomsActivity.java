@@ -36,6 +36,9 @@ public class RoomsActivity extends AppCompatActivity implements RoomsAsyncLoader
 
     private TextView welcomeMsg ;
 
+    private View roomTempLayout;
+    private View roomColorLayout;
+
     private RoomDTO currentRoomDTO = null;
 
     private String emailID = null;
@@ -56,6 +59,9 @@ public class RoomsActivity extends AppCompatActivity implements RoomsAsyncLoader
         roomNoTxtId = (TextView) findViewById(R.id.roomNoTextId);
         colorSpinner = (Spinner) findViewById(R.id.roomColorSpinnerId);
         bookBtn = (Button) findViewById(R.id.bookMyRoom);
+
+        roomTempLayout = (View) findViewById(R.id.roomTempLayoutId);
+        roomColorLayout = (View) findViewById(R.id.roomColorLayoutId);
 
         welcomeMsg = (TextView) findViewById(R.id.welcomeMsgHolderId);
 
@@ -90,10 +96,16 @@ public class RoomsActivity extends AppCompatActivity implements RoomsAsyncLoader
                 saveBtn.setVisibility(View.GONE);
                 welcomeMsg.setText("Room available for booking ");
 
+                roomTempLayout.setVisibility(View.GONE);
+                roomColorLayout.setVisibility(View.GONE);
+
             } else {
                 saveBtn.setVisibility(View.VISIBLE);
                 vacateBtn.setVisibility(View.VISIBLE);
                 bookBtn.setVisibility(View.GONE);
+
+                roomTempLayout.setVisibility(View.VISIBLE);
+                roomColorLayout.setVisibility(View.VISIBLE);
 
                 View laView = (View) findViewById(R.id.clientAppRoomLayoutId);
                 laView.setBackgroundColor(getColorInt(currentRoomDTO.getRoomColor()));

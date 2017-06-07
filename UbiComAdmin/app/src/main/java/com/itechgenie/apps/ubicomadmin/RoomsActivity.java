@@ -18,23 +18,27 @@ import com.itechgenie.apps.ubicomadmin.utils.ITGConstants;
 import com.itechgenie.apps.ubicomadmin.utils.RoomsAsyncLoader;
 
 
-public class RoomsActivity extends AppCompatActivity  implements RoomsAsyncLoader.callBack {
+public class RoomsActivity extends AppCompatActivity implements RoomsAsyncLoader.callBack {
 
     final static String LOGGER_TAG = "RoomsActivity";
 
     private EditText tempSelector;
     private Button saveBtn;
     private Button vacateBtn;
-    private TextView tempPickerLabelId ;
-    private TextView roomNoTxtId ;
+    private TextView tempPickerLabelId;
+    private TextView roomNoTxtId;
     private TextView roomUserEmailTxt;
 
-    private Spinner colorSpinner ;
-    int ageStart = 18 ;
+    private View roomTempLayout;
+    private View roomColorLayout;
 
-    private RoomDTO currentRoomDTO = null ;
 
-    private String emailID = null ;
+    private Spinner colorSpinner;
+    int ageStart = 18;
+
+    private RoomDTO currentRoomDTO = null;
+
+    private String emailID = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,40 +46,43 @@ public class RoomsActivity extends AppCompatActivity  implements RoomsAsyncLoade
         setContentView(R.layout.activity_rooms);
 
         tempSelector = (EditText) findViewById(R.id.roomTempEditorId);
-        saveBtn = (Button)  findViewById(R.id.saveButtonId);
-        vacateBtn = (Button)  findViewById(R.id.vacateRoom);
+        saveBtn = (Button) findViewById(R.id.saveButtonId);
+        vacateBtn = (Button) findViewById(R.id.vacateRoom);
         tempPickerLabelId = (TextView) findViewById(R.id.numberPickerLabelId);
         roomNoTxtId = (TextView) findViewById(R.id.roomNoTextId);
-        colorSpinner = (Spinner) findViewById(R.id.roomColorSpinnerId) ;
-        roomUserEmailTxt = (TextView) findViewById(R.id.roomUserEmailId) ;
+        colorSpinner = (Spinner) findViewById(R.id.roomColorSpinnerId);
+        roomUserEmailTxt = (TextView) findViewById(R.id.roomUserEmailId);
+
+        roomTempLayout = (View) findViewById(R.id.roomTempLayoutId);
+        roomColorLayout = (View) findViewById(R.id.roomColorLayoutId);
 
         Bundle b = this.getIntent().getExtras();
         if (b != null) {
             currentRoomDTO = (RoomDTO) b.getSerializable(ITGConstants.ROOM_INFORMATION);
         }
 
-        Log.d("RoomsActivity", "Room obtained: " + currentRoomDTO ) ;
+        Log.d("RoomsActivity", "Room obtained: " + currentRoomDTO);
 
-        if (currentRoomDTO !=  null ) {
+        if (currentRoomDTO != null) {
 
-            emailID = currentRoomDTO.getUserEmail() ;
+            emailID = currentRoomDTO.getUserEmail();
 
-            String roo = String.valueOf(currentRoomDTO.getRoomNo()) ;
-            Log.d("RoomsActivity", "Room no: " + roo ) ;
+            String roo = String.valueOf(currentRoomDTO.getRoomNo());
+            Log.d("RoomsActivity", "Room no: " + roo);
             roomNoTxtId.setText(roo);
 
-            String temp = String.valueOf(currentRoomDTO.getRoomTemp()) ;
-            Log.d("RoomsActivity", "Temperature: " + temp ) ;
+            String temp = String.valueOf(currentRoomDTO.getRoomTemp());
+            Log.d("RoomsActivity", "Temperature: " + temp);
             tempSelector.setText(temp);
 
-            int spnid = getIndex(currentRoomDTO.getRoomColor()) ;
-            Log.d("RoomsActivity", "Color index: " + spnid + " for " + currentRoomDTO.getRoomColor() ) ;
+            int spnid = getIndex(currentRoomDTO.getRoomColor());
+            Log.d("RoomsActivity", "Color index: " + spnid + " for " + currentRoomDTO.getRoomColor());
             colorSpinner.setSelection(spnid);
 
-            String emailId =  String.valueOf(currentRoomDTO.getUserEmail()) ;
-            Log.d("RoomsActivity", "Email id: " + emailId ) ;
+            String emailId = String.valueOf(currentRoomDTO.getUserEmail());
+            Log.d("RoomsActivity", "Email id: " + emailId);
             if (emailId == null || "null".equalsIgnoreCase(emailId))
-                emailId = "UNBOKKED" ;
+                emailId = "UNBOKKED";
 
             if (emailId != null && !"null".equalsIgnoreCase(emailId)
                     && !"admin@ubicom.com".equalsIgnoreCase(emailId)
@@ -96,7 +103,7 @@ public class RoomsActivity extends AppCompatActivity  implements RoomsAsyncLoade
             if (s.equalsIgnoreCase(color))
                 return i;
             else
-                i++ ;
+                i++;
         }
         return 0;
     }
@@ -114,7 +121,7 @@ public class RoomsActivity extends AppCompatActivity  implements RoomsAsyncLoade
 
     public void vacateRoom(View view) {
 
-        RoomDTO roomDTON = new RoomDTO()  ;
+        RoomDTO roomDTON = new RoomDTO();
         roomDTON.setRoomNo(currentRoomDTO.getRoomNo());
         roomDTON.setUserEmail("DUMMY");
         new RoomsAsyncLoader(RoomsActivity.this).execute(roomDTON);
@@ -123,15 +130,15 @@ public class RoomsActivity extends AppCompatActivity  implements RoomsAsyncLoade
 
 
     public void saveDetails(View view) {
-        Log.d(LOGGER_TAG, "Save details clicked: " + view.getId()) ;
-        Log.d(LOGGER_TAG, "Temperature Set: " + tempSelector.getText()) ;
-        Log.d(LOGGER_TAG, "Color Selected: " + colorSpinner.getSelectedItem()) ;
+        Log.d(LOGGER_TAG, "Save details clicked: " + view.getId());
+        Log.d(LOGGER_TAG, "Temperature Set: " + tempSelector.getText());
+        Log.d(LOGGER_TAG, "Color Selected: " + colorSpinner.getSelectedItem());
 
-        RoomDTO roomDTON = new RoomDTO()  ;
+        RoomDTO roomDTON = new RoomDTO();
 
         // Set the selected values
         roomDTON.setRoomColor((String) colorSpinner.getSelectedItem());
-        roomDTON.setRoomTemp (tempSelector.getText().toString());
+        roomDTON.setRoomTemp(tempSelector.getText().toString());
         roomDTON.setIsAvailable("N");
         roomDTON.setUserEmail(emailID);
         roomDTON.setRoomNo(currentRoomDTO.getRoomNo());
@@ -178,9 +185,9 @@ public class RoomsActivity extends AppCompatActivity  implements RoomsAsyncLoade
 
     @Override
     public void returnText(Object value) {
-        Log.d(LOGGER_TAG, "Return text: " + value) ;
+        Log.d(LOGGER_TAG, "Return text: " + value);
         Toast.makeText(this, "Updated config, loading home page !", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, MainActivity.class) ;
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 }
